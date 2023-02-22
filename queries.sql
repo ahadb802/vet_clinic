@@ -64,3 +64,37 @@ Select species,min(weight_kg) as MIN_WEIGHT,max(weight_kg) as MAX_WEIGHT from ve
 
 /*What is the average number of escape attempts per animal type of those born between 1990 and 2000?*/
 Select species, ROUND(AVG(A_escape_attempts),2) as AVG_RUN From vet_clinic.animals where A_DOB BETWEEN "1990-01-01" AND "2000-12-31" group by species;
+
+/*Write queries (using JOIN) to answer the following questions*/
+
+SELECT A_name FROM vet_clinic.animals
+    JOIN vet_clinic.owners ON vet_clinic.animals.owner_id = vet_clinic.owners.o_id 
+    WHERE o_name = 'Melody Pond';
+
+
+SELECT vet_clinic.animals.*, vet_clinic.species.S_name AS specie FROM vet_clinic.animals
+    JOIN vet_clinic.species ON vet_clinic.animals.species_id = vet_clinic.species.S_id
+    WHERE vet_clinic.species.S_name = 'Pokemon';
+
+SELECT vet_clinic.animals.A_name AS A_name, vet_clinic.owners.o_name AS o_name FROM vet_clinic.owners
+    LEFT JOIN vet_clinic.animals ON vet_clinic.owners.o_id = vet_clinic.animals.owner_id;
+    
+SELECT vet_clinic.species.S_name AS species_name, COUNT(*) FROM vet_clinic.animals
+    JOIN vet_clinic.species ON vet_clinic.species.S_id = vet_clinic.animals.species_id
+    GROUP BY species.S_name;
+
+SELECT vet_clinic.animals.A_name as animal_name, vet_clinic.owners.o_name AS owner_name, vet_clinic.species.S_name AS species_name 
+from vet_clinic.animals
+JOIN vet_clinic.species ON vet_clinic.species.S_id = vet_clinic.animals.species_id
+JOIN vet_clinic.owners ON vet_clinic.owners.o_id = vet_clinic.animals.owner_id
+WHERE vet_clinic.species.S_name = 'Digimon' AND vet_clinic.owners.o_name = 'Jennifer Orwell';
+
+SELECT * from vet_clinic.animals
+JOIN vet_clinic.owners ON vet_clinic.animals.owner_id = vet_clinic.owners.o_id
+WHERE vet_clinic.owners.o_name = 'Dean Winchester' AND vet_clinic.animals.A_escape_attempts = 0;
+
+SELECT vet_clinic.owners.o_name, COUNT(vet_clinic.animals.A_name) AS TOTAL
+FROM vet_clinic.owners
+LEFT JOIN vet_clinic.animals ON vet_clinic.owners.o_id = vet_clinic.animals.owner_id
+GROUP BY vet_clinic.owners.o_name
+ORDER BY TOTAL DESC;
