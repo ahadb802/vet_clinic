@@ -10,3 +10,7 @@ neutered BOOLEAN DEFAULT NULL,
 weight_kg DECIMAL(4,2) NULL
 );
 
+/*ADD new column in animals table name species*/
+
+ALter table vet_clinic.animals
+ADD species varchar(45);
