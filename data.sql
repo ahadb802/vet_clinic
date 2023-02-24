@@ -57,3 +57,42 @@ WHERE A_name = 'Charmander' OR A_name = 'Squirtle' OR A_name ='Blossom';
 UPDATE vet_clinic.animals
 SET owner_id = (SELECT o_id from vet_clinic.owners WHERE o_name = 'Dean Winchester')
 WHERE A_name = 'Boarmon' OR A_name = 'Angemon';
+
+
+/*insert data in vets table*/
+
+INSERT INTO vet_clinic.vets (v_name, v_age, date_of_graduation) VALUES ('William Tatcher', 45, date '2000-04-23');
+INSERT INTO vet_clinic.vets (v_name, v_age, date_of_graduation) VALUES ('Maisy Smith', 26, date '2019-01-17');
+INSERT INTO vet_clinic.vets (v_name, v_age, date_of_graduation) VALUES ('Stephanie Mendez', 64, date '1981-05-04');
+INSERT INTO vet_clinic.vets (v_name, v_age, date_of_graduation) VALUES ('Jack Harkness', 38, date '2008-06-08');
+
+/*insert data in specializations*/
+
+INSERT INTO vet_clinic.specializations (species_id, vets_id)
+VALUES ((SELECT S_id FROM vet_clinic.species WHERE S_name = 'Pokemon'), (SELECT v_id FROM vet_clinic.vets WHERE v_name = 'William Tatcher')),
+	   ((SELECT S_id FROM vet_clinic.species WHERE S_name = 'Pokemon'), (SELECT v_id FROM vet_clinic.vets WHERE v_name = 'Stephanie Mendez')),
+       ((SELECT S_id FROM vet_clinic.species WHERE S_name = 'Digimon'), (SELECT v_id FROM vet_clinic.vets WHERE v_name = 'Stephanie Mendez')),
+	   ((SELECT S_id FROM vet_clinic.species WHERE S_name = 'Digimon'), (SELECT v_id FROM vet_clinic.vets WHERE v_name = 'Jack Harkness'));
+       
+/*insert data into visits*/
+INSERT INTO vet_clinic.visits (animals_id, vets_id, date_of_visit) 
+VALUES ((SELECT A_id FROM vet_clinic.animals WHERE A_name = 'Agumon'), (SELECT v_id FROM vet_clinic.vets WHERE v_name = 'William Tatcher'), '2020-05-24'),
+	((SELECT A_id FROM vet_clinic.animals WHERE A_name = 'Agumon'), (SELECT v_id FROM vet_clinic.vets WHERE v_name = 'Stephanie Mendez'), '2020-07-22'),
+	((SELECT A_id FROM vet_clinic.animals WHERE A_name = 'Gabumon'), (SELECT v_id FROM vet_clinic.vets WHERE v_name = 'Jack Harkness'), '2021-02-02'),
+	((SELECT A_id FROM vet_clinic.animals WHERE A_name = 'Pikachu'), (SELECT v_id FROM vet_clinic.vets WHERE v_name = 'Maisy Smith'), '2020-01-05'),
+	((SELECT A_id FROM vet_clinic.animals WHERE A_name = 'Pikachu'), (SELECT v_id FROM vet_clinic.vets WHERE v_name = 'Maisy Smith'), '2020-03-08'),
+	((SELECT A_id FROM vet_clinic.animals WHERE A_name = 'Pikachu'), (SELECT v_id FROM vet_clinic.vets WHERE v_name = 'Maisy Smith'), '2020-05-14'),
+	((SELECT A_id FROM vet_clinic.animals WHERE A_name = 'Devimon'), (SELECT v_id FROM vet_clinic.vets WHERE v_name = 'Stephanie Mendez'), '2021-05-04'),
+	((SELECT A_id FROM vet_clinic.animals WHERE A_name = 'Charmander'), (SELECT v_id FROM vet_clinic.vets WHERE v_name = 'Jack Harkness'), '2021-02-24'),
+	((SELECT A_id FROM vet_clinic.animals WHERE A_name = 'Plantmon'), (SELECT v_id FROM vet_clinic.vets WHERE v_name = 'Maisy Smith'), '2019-12-21'),
+	((SELECT A_id FROM vet_clinic.animals WHERE A_name = 'Plantmon'), (SELECT v_id FROM vet_clinic.vets WHERE v_name = 'William Tatcher'), '2020-08-10'),
+	((SELECT A_id FROM vet_clinic.animals WHERE A_name = 'Plantmon'), (SELECT v_id FROM vet_clinic.vets WHERE v_name = 'Maisy Smith'), '2021-04-07'),
+	((SELECT A_id FROM vet_clinic.animals WHERE A_name = 'Squirtle'), (SELECT v_id FROM vet_clinic.vets WHERE v_name = 'Stephanie Mendez'), '2019-09-29'),
+	((SELECT A_id FROM vet_clinic.animals WHERE A_name = 'Angemon'), (SELECT v_id FROM vet_clinic.vets WHERE v_name = 'Jack Harkness'), '2020-10-03'),
+	((SELECT A_id FROM vet_clinic.animals WHERE A_name = 'Angemon'), (SELECT v_id FROM vet_clinic.vets WHERE v_name = 'Jack Harkness'), '2020-11-04'),
+	((SELECT A_id FROM vet_clinic.animals WHERE A_name = 'Boarmon'), (SELECT v_id FROM vet_clinic.vets WHERE v_name = 'Maisy Smith'), '2019-01-24'),
+	((SELECT A_id FROM vet_clinic.animals WHERE A_name = 'Boarmon'), (SELECT v_id FROM vet_clinic.vets WHERE v_name = 'Maisy Smith'), '2019-05-15'),
+	((SELECT A_id FROM vet_clinic.animals WHERE A_name = 'Boarmon'), (SELECT v_id FROM vet_clinic.vets WHERE v_name = 'Maisy Smith'), '2020-02-27'),
+	((SELECT A_id FROM vet_clinic.animals WHERE A_name = 'Boarmon'), (SELECT v_id FROM vet_clinic.vets WHERE v_name = 'Maisy Smith'), '2020-08-03'),
+	((SELECT A_id FROM vet_clinic.animals WHERE A_name = 'Blossom'), (SELECT v_id FROM vet_clinic.vets WHERE v_name = 'Stephanie Mendez'), '2020-05-24'),
+	((SELECT A_id FROM vet_clinic.animals WHERE A_name = 'Blossom'), (SELECT v_id FROM vet_clinic.vets WHERE v_name = 'William Tatcher'), '2021-01-11');

@@ -98,3 +98,68 @@ FROM vet_clinic.owners
 LEFT JOIN vet_clinic.animals ON vet_clinic.owners.o_id = vet_clinic.animals.owner_id
 GROUP BY vet_clinic.owners.o_name
 ORDER BY TOTAL DESC;
+
+
+/*Quries for vets*/
+
+
+    SELECT vet_clinic.animals.A_name as animal_name, vet_clinic.vets.v_name as Vet, vet_clinic.visits.date_of_visit FROM vet_clinic.vets
+    JOIN vet_clinic.visits ON vet_clinic.vets.v_id = vet_clinic.visits.vets_id
+    JOIN vet_clinic.animals ON vet_clinic.animals.A_id = vet_clinic.visits.animals_id
+    WHERE vet_clinic.vets.v_name = 'William Tatcher'
+    ORDER BY vet_clinic.visits.date_of_visit DESC
+    LIMIT 1;
+    
+    SELECT COUNT(*) as visited FROM vet_clinic.vets
+    JOIN vet_clinic.visits ON vet_clinic.vets.v_id = vet_clinic.visits.vets_id
+    WHERE vet_clinic.vets.v_name = 'Stephanie Mendez';
+    
+    SELECT vet_clinic.vets.v_name as VET_NAME, vet_clinic.species.S_name AS SPECIES_NAME FROM vet_clinic.vets
+    LEFT JOIN vet_clinic.specializations ON vet_clinic.specializations.vets_id = vet_clinic.vets.v_id
+    LEFT JOIN  vet_clinic.species ON vet_clinic.specializations.species_id = vet_clinic.species.S_id;
+    
+    SELECT vet_clinic.animals.A_name AS animal_name, vet_clinic.visits.date_of_visit FROM vet_clinic.animals
+    JOIN vet_clinic.visits ON vet_clinic.visits.animals_id = vet_clinic.animals.A_id
+    JOIN vet_clinic.vets ON vet_clinic.vets.v_id = vet_clinic.visits.vets_id
+    WHERE vet_clinic.vets.v_name = 'Stephanie Mendez' AND vet_clinic.visits.date_of_visit >= '2020-04-01' AND vet_clinic.visits.date_of_visit <= '2020-08-30';
+    
+    SELECT vet_clinic.animals.A_name as animal_name, COUNT(*) AS total FROM vet_clinic.animals
+    JOIN vet_clinic.visits ON vet_clinic.visits.animals_id = vet_clinic.animals.A_id
+    GROUP BY vet_clinic.animals.A_name
+    ORDER BY total DESC
+    LIMIT 1;
+    
+    SELECT vet_clinic.vets.v_name as vet_NAME, vet_clinic.visits.date_of_visit as date_of_vist, vet_clinic.animals.A_name as animal_name FROM vet_clinic.visits 
+    JOIN vet_clinic.vets ON vet_clinic.vets.v_id = vet_clinic.visits.vets_id
+    JOIN vet_clinic.animals ON vet_clinic.animals.A_id = vet_clinic.visits.animals_id
+    WHERE vet_clinic.vets.v_name = 'Maisy Smith'
+    ORDER BY vet_clinic.visits.date_of_visit
+    LIMIT 1;
+    
+    SELECT date_of_visit,
+	vet_clinic.animals.A_DOB AS animal_date,
+	vet_clinic.animals.A_escape_attempts,
+	vet_clinic.animals.neutered,
+	vet_clinic.animals.weight_kg AS animal_weight,
+	vet_clinic.vets.v_name AS vet_name,
+	vet_clinic.vets.v_age AS vet_age,
+	vet_clinic.vets.date_of_graduation
+FROM vet_clinic.visits
+JOIN vet_clinic.animals ON vet_clinic.animals.A_id = visits.animals_id
+JOIN vet_clinic.vets ON vet_clinic.vets.v_id = vet_clinic.visits.vets_id
+ORDER BY date_of_visit
+LIMIT 1;
+
+SELECT COUNT(*)
+    FROM vet_clinic.visits 
+    JOIN vet_clinic.animals ON vet_clinic.animals.A_id = vet_clinic.visits.animals_id
+    JOIN vet_clinic.vets ON vet_clinic.vets.v_id = vet_clinic.visits.vets_id
+    JOIN vet_clinic.specializations ON vet_clinic.specializations.vets_id = vet_clinic.visits.vets_id
+    WHERE vet_clinic.animals.species_id != vet_clinic.specializations.species_id;
+    
+SELECT vet_clinic.species.S_name as species_NAME, COUNT(*) as _count FROM vet_clinic.visits
+    JOIN vet_clinic.vets ON vet_clinic.vets.v_id = vet_clinic.visits.vets_id
+    JOIN vet_clinic.animals ON vet_clinic.animals.A_id = vet_clinic.visits.animals_id
+    JOIN vet_clinic.species ON vet_clinic.species.S_id = vet_clinic.animals.species_id
+    WHERE vet_clinic.vets.v_name = 'Maisy Smith'
+    GROUP BY vet_clinic.species.S_name;

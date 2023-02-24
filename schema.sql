@@ -40,3 +40,34 @@ Alter Table vet_clinic.animals ADD species_id int;
 Alter Table vet_clinic.animals ADD FOREIGN KEY (species_id) REFERENCES vet_clinic.species (S_id);
 Alter Table vet_clinic.animals ADD owner_id int;
 Alter Table vet_clinic.animals ADD FOREIGN KEY (owner_id) REFERENCES vet_clinic.owners (o_id);
+
+/*create vets table*/
+
+create table vet_clinic.vets(
+v_id INT auto_increment NOT NULL,
+v_name varchar(45),
+v_age int,
+date_of_graduation date,
+primary key(`v_id`)
+);
+
+/*create specializations table*/
+create table vet_clinic.specializations(
+species_id INT ,
+	vets_id INT 
+);
+
+/*set many to many rel with vets and species*/
+
+Alter Table vet_clinic.specializations ADD FOREIGN KEY (species_id) REFERENCES vet_clinic.species (S_id);
+Alter Table vet_clinic.specializations ADD FOREIGN KEY (vets_id) REFERENCES vet_clinic.vets (v_id);
+
+/*Create visits table*/
+CREATE TABLE vet_clinic.visits (
+	animals_id INT ,
+	vets_id INT,
+	date_of_visit DATE
+);
+ /*many many to rel with animal and vets*/
+Alter Table vet_clinic.visits ADD FOREIGN KEY (animals_id) REFERENCES vet_clinic.animals (A_id);
+Alter Table vet_clinic.visits ADD FOREIGN KEY (vets_id) REFERENCES vet_clinic.vets (v_id);
